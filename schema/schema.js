@@ -7,12 +7,16 @@ const {
   GraphQLSchema,
   GraphQLID,
   GraphQLInt,
+  GraphQLList,
 } = graphql;
 
 var books = [
-  { name: "Ash", genre: "Trainer", id: "1" },
-  { name: "Pikachu", genre: "Pokemon", id: "2" },
-  { name: "Brock", genre: "Trainer", id: "3" },
+  { name: "Ash", genre: "Trainer", id: "1", authorId: "1" },
+  { name: "Pikachu", genre: "Pokemon", id: "2", authorId: "2" },
+  { name: "Brock", genre: "Trainer", id: "3", authorId: "3" },
+  { name: "hahahlol", genre: "Just LOL", id: "4", authorId: "3" },
+  { name: "no wayyyyy", genre: "yah yah yah", id: "5", authorId: "2" },
+  { name: "The English Patient", genre: "Classics", id: "6", authorId: "3" },
 ];
 
 var authors = [
@@ -27,6 +31,12 @@ const BookType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     genre: { type: GraphQLString },
+    author: {
+      type: AuthorType,
+      resolve(parent, args) {
+        return lodash.find(authors, { id: parent.authorId });
+      },
+    },
   }),
 });
 
@@ -36,6 +46,12 @@ const AuthorType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
+    books: {
+      type: new GraphQLList(BookType),
+      resolve(parent, args) {
+        return lodash.filter(books, { authorId: parent.id });
+      },
+    },
   }),
 });
 
@@ -53,7 +69,19 @@ const RootQuery = new GraphQLObjectType({
       type: AuthorType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        return lodash.find(author, { id: args.author });
+        return lodash.find(authors, { id: args.id });
+      },
+    },
+    books: {
+      type: new GraphQLList(BookType),
+      resolve(parent, args) {
+        return books;
+      },
+    },
+    authors: {
+      type: new GraphQLList(AuthorType),
+      resolve(parent, args) {
+        return authors;
       },
     },
   },
