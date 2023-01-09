@@ -9,6 +9,10 @@ mongoose.connect(
   "mongodb+srv://david:efB1GpafaIc9jP32@cluster0.uao15ii.mongodb.net/?retryWrites=true&w=majority"
 );
 
+mongoose.connection.once("open", () => {
+  console.log("connected to database");
+});
+
 app.use(
   "/graphql",
   graphqlHTTP({
