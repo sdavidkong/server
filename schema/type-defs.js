@@ -23,9 +23,14 @@ const typeDefs = gql`
     age: Int!
     nationality: Nationatlity = BRAZIL
   }
+  input UpdateUsernameInput {
+    id: ID!
+    newUsername: String!
+  }
 
   type Mutation {
-    createUser(input: CreateUserInput!): User!
+    createUser(input: CreateUserInput!): User
+    updateUsername(input: UpdateUsernameInput): User
   }
 
   type Query {

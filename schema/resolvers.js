@@ -30,6 +30,13 @@ const resolvers = {
   Mutation: {
     createUser: (parent, args) => {
       const user = args.input;
+      const lastId = UserList[UserList.length - 1].id;
+      user.id = lastId + 1;
+      UserList.push(user);
+    },
+    updateUsername: (parent, args) => {
+      const id = args.input.id;
+      const newUsername = args.input.newUsername;
     },
   },
 };
