@@ -26,6 +26,12 @@ const resolvers = {
       return _.filter(MovieList, (movie) => movie.yearOfPublication >= 2000);
     },
   },
+
+  Mutation: {
+    createUser: (parent, args) => {
+      const user = args.input;
+    },
+  },
 };
 
 module.exports = { resolvers };

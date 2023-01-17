@@ -17,6 +17,17 @@ const typeDefs = gql`
     isInTheaters: Boolean!
   }
 
+  input CreateUserInput {
+    name: String!
+    username: String!
+    age: Int!
+    nationality: Nationatlity = BRAZIL
+  }
+
+  type Mutation {
+    createUser(input: CreateUserInput!): User!
+  }
+
   type Query {
     users: [User!]!
     user(id: ID!): User!
